@@ -38,7 +38,7 @@ jspm_packages/
 # OS files
 .DS_Store
 Thumbs.db
-
+._*
 # Editor directories and files
 .idea/
 .vscode/
