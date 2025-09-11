@@ -259,6 +259,19 @@ export const updateBillingById = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
     const updateData = req.body;
+    
+    // Validate discount data
+    if (updateData.discount) {
+      if (!updateData.discount.type || !['percent', 'amount'].includes(updateData.discount.type)) {
+        await session.abortTransaction();
+        return res.status(400).json({ message: 'Invalid discount type' });
+      }
+      if (typeof updateData.discount.value !== 'number' || updateData.discount.value < 0) {
+        await session.abortTransaction();
+        return res.status(400).json({ message: 'Invalid discount value' });
+      }
+    }
+    
     const existingBilling = await Billing.findById(id).session(session);
     if (!existingBilling) {
       await session.abortTransaction();
@@ -274,6 +287,12 @@ export const updateBillingById = async (req, res) => {
       billNumber: existingBilling.billNumber,
       billingId: existingBilling._id,
       type: 'modification',
+      amount: updatedBilling.payment.paid,
+      paymentMethod: {
+        type: updatedBilling.payment.type,
+        cardNumber: updatedBilling.payment.cardNumber,
+        utrNumber: updatedBilling.payment.utrNumber
+      },
       previousStatus: existingBilling.status,
       newStatus: updatedBilling.status,
       changes: {

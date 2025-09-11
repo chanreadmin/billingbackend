@@ -23,7 +23,7 @@ const BillingSchema = new mongoose.Schema({
   billingItems: [BillingItemSchema],
   discount: {
     type: { type: String, enum: ['percent', 'amount'], required: true },
-    value: { type: Number, required: true }
+    value: { type: Number, required: true, min: 0 }
   },
   payment: {
     type: { type: String, enum: ['cash', 'card', 'upi', 'NEFT'], required: true },

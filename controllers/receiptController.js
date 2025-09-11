@@ -11,9 +11,13 @@ export const getAllReceipts = async (req, res) => {
     if (type) filter.type = type;
     if (billNumber) filter.billNumber = billNumber;
     if (startDate && endDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
       filter.date = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: start,
+        $lte: end
       };
     }
     
@@ -65,9 +69,13 @@ export const getReceiptStats = async (req, res) => {
     
     let matchCondition = {};
     if (startDate && endDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
       matchCondition.date = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: start,
+        $lte: end
       };
     }
     
@@ -210,9 +218,13 @@ export const searchReceipts = async (req, res) => {
     if (type) searchConditions.type = type;
     
     if (startDate && endDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
       searchConditions.date = {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: start,
+        $lte: end
       };
     }
     

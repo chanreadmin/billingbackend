@@ -10,6 +10,7 @@ import reportRoutes from './reportRoutes.js';
 import deparmentRoutes from './departmentRoutes.js';
 import categoryRoutes from './categoryRoutes.js';
 import productRoutes from './productRoutes.js';
+import migrationRoutes from './migrationRoutes.js';
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.use('/reports', reportRoutes);
 router.use('/department', deparmentRoutes);
 router.use('/category', categoryRoutes);
 router.use('/product', productRoutes);
+router.use('/migrations', migrationRoutes);
 
 export default router;

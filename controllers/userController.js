@@ -66,21 +66,17 @@ export const updateUser = async (req, res) => {
   const { name, email, role, department, specialization, consultationCharges, contactNumber } = req.body;
 
   try {
- 
-
     // First check if user exists
     const existingUser = await User.findById(id);
     if (!existingUser) {
       return res.status(404).json({ message: 'User not found' });
     }
-
     // Prepare update data
     const updateData = {
       name,
       email,
       contactNumber
     };
-
     // Handle doctor-specific fields
     if (existingUser.role === 'Doctor') {
       // Verify department if provided
@@ -91,14 +87,10 @@ export const updateUser = async (req, res) => {
         }
         updateData.department = departmentDoc._id;
       }
-
       // Only update these fields if they're provided
       if (specialization) updateData.specialization = specialization;
       if (consultationCharges) updateData.consultationCharges = consultationCharges;
     }
-
-
-
     // Update user
     const updatedUser = await User.findByIdAndUpdate(
       id,
@@ -112,7 +104,6 @@ export const updateUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: 'Failed to update user' });
     }
-
  
     res.status(200).json(updatedUser);
 
